@@ -1,5 +1,9 @@
 # Integrantes
 
+Jonathan Boyne - 0059169
+Héctor PONCE SCHWARZ - 0151155
+Facundo Safe - 0134400
+
 
 
 # Comandos
