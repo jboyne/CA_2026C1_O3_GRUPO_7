@@ -1,0 +1,60 @@
+BACKUP EXPORT - Instrucciones
+=============================
+
+Crear carpeta export
+mkdir -p /tmp/entrega 
+
+Comprimir carpetas y agruparlas en export
+tar -czf /tmp/entrega/root.tar.gz /root
+tar -czf /tmp/entrega/etc.tar.gz /etc
+tar -czf /tmp/entrega/opt.tar.gz /opt
+tar -czf /tmp/entrega/www_dir.tar.gz /www_dir
+tar -czf /tmp/entrega/backup_dir.tar.gz /backup_dir
+tar -czf /tmp/entrega/var.tar.gz /var 
+
+Split var
+split -b 50M /tmp/entrega/var.tar.gz /tmp/entrega/var.tar.gz.part. 
+
+
+Descargar desde pc remota
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/root.tar.gz .
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/etc.tar.gz .
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/opt.tar.gz .
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/www_dir.tar.gz .
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/backup_dir.tar.gz .
+scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/var.tar.gz.part.* . 
+
+
+
+Archivos generados el 2026-06-08
+
+ARCHIVOS:
+  - root.tar.gz       (367 KB) - /root 
+  - etc.tar.gz        (653 KB) - /etc
+  - opt.tar.gz        (554 B)  - /opt
+  - www_dir.tar.gz    (3 KB)   - /www_dir
+  - backup_dir.tar.gz (6.3 MB) - /backup_dir
+  - var.tar.gz.part-aa  (51 MB)
+  - var.tar.gz.part-ab  (15 MB)
+
+Para reconstruir var.tar.gz:
+  cat var.tar.gz.part-* > var.tar.gz
+
+Para extraer cualquier archivo:
+  tar -xzf nombre.tar.gz -C /destino/
+
+Para extraer /var reconstruido:
+  cat var.tar.gz.part-* > var.tar.gz
+  tar -xzf var.tar.gz -C /destino/
+
+DESCARGAR ORIGINALES:
+  scp -r root@IP_DEL_SERVIDOR:/tmp/entrega/ ./entrega/
+  scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/tmp/entrega/ ./entrega/
+
+  O archivo por archivo:
+  scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/root/entrega/*.tar.gz ./
+  scp -i "$env:USERPROFILE\.ssh\clave_privada.txt" root@192.168.1.250:/root/entrega/var.tar.gz.part-* ./
+
+
+
+
